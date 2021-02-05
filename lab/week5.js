@@ -29,4 +29,70 @@ function forecastHTML(dailyForecast) {
 // All your code can go inside of this event listener ⬇️ ⬇️ ⬇️ ⬇️ ⬇️
 window.addEventListener('DOMContentLoaded', function() {
   // Your code ...
+
+  let button = document.querySelector(`#chicago-forecast`)
+
+  button.addEventListener(`click`, async function(event){
+    //console.log(event)
+    event.preventDefault()
+
+    //    a. find the forecast header (use the selector .forecast-header) and modify its innerHTML to `${location} Forecast`
+    let header = document.querySelector(`#forecast-header`)
+    let location = button.innerHTML
+    header.innerHTML = `${location} Forecast`
+
+    //    b. fetch the api response from https://api.weatherapi.com/v1/forecast.json?key=YOUR_KEY&q=LOCATION&days=3
+    let response = fetch(`https://api.weatherapi.com/v1/forecast.json?key=YOUR_KEY&q=${location}&days=3`)
+    // signup for an api key https://weatherapi.com
+
+    console.log(response)
+
+
+    //    c. extract the json using the .json() function
+    let json = await response.json()
+    console.log(json)
+
+
+
+    //    d. find the array of daily forecast data, loop through it and, insert HTML with each day's forecast using the forecastHTML() function
+    let forecast = json.forecast.forcastday
+    let forecastElement = document.querySelector('#forecast')
+
+    console.log(forecast)
+    console.log(forecastElement)
+
+
+    for(let i = 0; i < forecast.length; i++) {
+      let dailyForecast = forecast[i]
+
+      forecastElement.insertAdjacentHTML('beforeend', forecastHTML(dailyForecast))
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+  })
+
+  console.log(button)
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
